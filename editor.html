@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="edmi">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<title>T of Kn #1</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+	<script type="text/javascript">
+  function o(s) {
+    return document.getElementById(s);
+  }
+  </script>
+
+  <style type="text/css">
+		@font-face {
+    		font-family: 'PT Serif';
+    		src: url(fonts/PT_Serif-Web-Regular.ttf);
+    		font-style: normal;
+   		}
+
+		@font-face {
+    		font-family: 'PT Serif';
+    		src: url(fonts/PT_Serif-Web-Bold.ttf);
+    		font-weight: bold;
+   		}
+
+   		@font-face {
+    		font-family: 'PT Serif';
+    		src: url(fonts/PT_Serif-Web-Italic.ttf);
+    		font-style: italic;
+   		}	
+
+		@font-face {
+    		font-family: 'PT Sans';
+    		src: url(fonts/PT_Sans-Web-Regular.ttf);
+    		font-style: normal;
+   		}
+
+		@font-face {
+    		font-family: 'PT Sans';
+    		src: url(fonts/PT_Sans-Web-Bold.ttf);
+    		font-weight: bold;
+   		}
+
+   		@font-face {
+    		font-family: 'PT Sans';
+    		src: url(fonts/PT_Sans-Web-Italic.ttf);
+    		font-style: italic;
+   		}	   			
+
+		body {
+			padding-top: 64px;
+		}
+
+		.jumbotron {
+			padding: 0.2em;
+			font-family: 'PT Serif';
+			font-style: normal;
+			font-weight: normal;
+		}
+
+		.jumbotron h2 {
+			font-family: 'PT Sans';			
+		}
+
+    #editor { 
+      width: 100%;
+      height: 60em;
+      font-size: 12pt;
+      border-style: solid;
+      border-color: #fec;
+      border-width: 0.5em;
+    }
+	</style>
+	
+</head>
+
+<script type="text/javascript">
+function build(e,m,ch) {
+  $.ajax({
+    url: '/build',
+    type: 'POST',
+    data: JSON.stringify({latex:editor.getValue(),entryName:e,magicCode:m,commitChanges:ch}),
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    async: true,
+    success: function(msg) {
+      if(msg.err==undefined) {
+        $("#erral").show().attr('class',"alert alert-warning");
+        $("#err").html("Successfully compiled entry <strong>" + e + "</strong> in sandbox!");
+        setTimeout(function(){$('#erral').hide()},1500);
+        o('preview-link').href = "sandbox/" + e + ".html";
+        o('preview-link').style.visibility = "visible";
+        o('preview-link').innerHTML = "preview <strong>" + e + "</strong>"; 
+      } else {
+        $("#erral").show().attr('class',"alert alert-danger");
+        $("#err").html(msg.err);
+        setTimeout(function(){$('#erral').hide()},1500);
+      }        
+    }
+  });
+}
+
+function opend(e,m) {
+  $.ajax({
+    url: '/open',
+    type: 'POST',
+    data: JSON.stringify({entryName:e,magicCode:m}),
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    async: true,
+    success: function(msg) {
+      if(msg.err==undefined) {
+        editor.setValue(msg.latex);
+        $("#erral").show().attr('class',"alert alert-success");
+        $("#err").html("Successfully opened entry <strong>" + e + "</strong>!");
+        setTimeout(function(){$('#erral').hide()},1500);
+        o('preview-link').style.visibility = "hidden";
+      } else {
+        $("#erral").show().attr('class',"alert alert-danger");
+        $("#err").html(msg.err);
+        setTimeout(function(){$('#erral').hide()},1500);
+      }
+
+    }
+  })
+}
+
+function closeList() {
+  $('#erral').hide()
+}
+
+function list(e,m) {
+  $.ajax({
+    url: '/list',
+    type: 'POST',
+    data: JSON.stringify({entryName:e,magicCode:m}),
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    async: true,
+    success: function(msg) {
+      if(msg.err==undefined) {
+        $("#erral").show().attr('class',"alert alert-default");
+        l=""
+        for(i in msg.list) {
+          l+="<tr><td><a href='javascript:void' onclick='closeList();o(\"entry-name\").value = \"" + msg.list[i].split(".tex.aes").join("") + "\"'>" + msg.list[i].split(".tex.aes").join("")+"</td></tr><br>";
+        }
+        $("#err").html("<table class='table table-hover table-bordered'>" + l + "</table>");
+        //setTimeout(function(){$('#erral').hide()},1500);
+      } else {
+        $("#erral").show().attr('class',"alert alert-danger");
+        $("#err").html("I/O error!");
+        setTimeout(function(){$('#erral').hide()},1500);
+      }
+
+    }
+  })
+}
+
+function push(e) {
+    $.ajax({
+      url: '/push',
+      type: 'POST',
+      data: JSON.stringify({entryName:e}),
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      async: true,
+      success: function(msg) {
+        if(msg.err==undefined) {
+          $("#erral").show().attr('class',"alert alert-warning");
+          $("#err").html("Successfully pushed entry <strong>" + e + "</strong>!");
+          setTimeout(function(){$('#erral').hide()},1500);
+          o('preview-link').style.visibility = "hidden";
+        } else {
+          $("#erral").show().attr('class',"alert alert-danger");
+          $("#err").html(msg.err);
+          setTimeout(function(){$('#erral').hide()},1500);
+        }
+
+      }
+    })
+}
+
+</script>
+
+<body onload="$('#erral').hide()">
+    <nav class="navbar navbar-fixed-top navbar-default">
+  <div class="container">
+
+  <div class="navbar-form">
+  <button class="btn btn-default" onclick="list()">List</button>  
+  <input type="text" class="form-control" aria-label="..." placeholder="EntryName" id="entry-name">
+  <input type="text" class="form-control" aria-label="..." placeholder="MagicCode" id="magic-code">
+  <button class="btn btn-default" onclick="opend(o('entry-name').value,o('magic-code').value)">Open</button>
+  <input type="text" class="form-control" aria-label="..." placeholder="CommitChanges" id="commit-changes">
+  <button class="btn btn-default" onclick="build(o('entry-name').value,o('magic-code').value,o('commit-changes').value)">Build</button>
+  <a id="preview-link" style="visibility:hidden;" href="sandbox/" target="_blank" class="btn btn-link">Preview</a>
+<div class="pull-right">  
+  <button class="btn btn-warning" onclick="push(o('entry-name').value)">Push</button>
+</div>
+
+</div>
+</nav>
+
+    <div class="container">
+      <div class="alert alert-info" role="alert" id="erral">
+    <span id="err">Loading...</span>
+  </div>
+<div id="editor">\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{cmap}
+\usepackage{amsfonts,amsmath}
+\usepackage{geometry}
+\usepackage{listings}
+\geometry{verbose,a5paper,tmargin=0.8cm,bmargin=1.5cm,lmargin=0.2cm,rmargin=0.2cm}
+\pdfcompresslevel=9
+
+%VARS%
+%! { 
+%! "TITLE": "Заголовок_для_содержания",
+%! "DESCRIPTION": "Описание",
+%! "AUTHOR": "Автор",
+%! "TAGS": "теги, теги, теги"
+%! }
+%VARS%
+
+\begin{document}
+
+    \huge{\textbf{Заголовок}}\\\small
+    
+    Текст
+    
+\end{document}
+
+</div>
+    </div> 
+
+
+
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="js/ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    editor = ace.edit("editor");
+    editor.setTheme("ace/theme/clouds");
+    editor.getSession().setMode("ace/mode/latex");
+</script>
+</body>
+
+</html>

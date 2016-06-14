@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="../js/aes.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<script type="text/javascript">
+var encrypted = CryptoJS.AES.encrypt("", "Secret Passphrase");
+var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase").toString(CryptoJS.enc.Utf8);
+var zoomed;
+var canvas;
+var context;
+var PF;
+var openPrevPage;
+var openNextPage;
+var currPageNumber;
+var render;
+
+var pdfData = "%PDF%";
+
+function o(s) {
+	return document.getElementById(s);
+}
+
+function decrypt(p) {
+	try {
+		var dec = CryptoJS.AES.decrypt(pdfData, p).toString(CryptoJS.enc.Utf8);
+		if(dec != "") {
+			o("encrypted").style.opacity = "1"
+			o("alert").innerHTML = "";
+			o("alert").outerHTML = "";
+			o("viewer").style.visibility = "visible";
+			render(atob(dec));
+		} else {
+			o("decryption-result").innerHTML = "<strong>%WRONGCODE%</strong>";
+		}	
+	} catch(e) {
+		o("decryption-result").innerHTML = "<strong>%WRONGCODE%</strong>";
+	}
+}
+
+function trydec() {
+	try {
+		var dec = CryptoJS.AES.decrypt(pdfData, "").toString(CryptoJS.enc.Utf8);
+		if(dec != "") {
+			o("encrypted").style.opacity = "1"
+			o("alert").innerHTML = "";
+			o("alert").outerHTML = "";
+			o("viewer").style.visibility = "visible";
+			render(atob(dec));
+		} else {
+			// Nothing
+		}	
+	} catch(e) {
+		// Nothing I said gtfo u skum!
+	}	
+}
+
+</script>
+<link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="%DESCRIPTION%">
+    <meta name="author" content="%AUTHOR%">
+    <meta name="keywords" content="%TAGS%">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+	<title>%TITLE%</title>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+	<script src="../js/pdfjs/pdf.js"></script>
+  	<script src="../js/pdfjs/pdf.worker.js"></script>
+	<style type="text/css">
+		@font-face {
+    		font-family: 'Keys';
+    		src: url(../fonts/SamysKeysNKeys.ttf);
+    		font-style: normal;
+   		}
+
+		@font-face {
+    		font-family: 'PT Serif';
+    		src: url(../fonts/PT_Serif-Web-Regular.ttf);
+    		font-style: normal;
+   		}
+
+		@font-face {
+    		font-family: 'PT Serif';
+    		src: url(../fonts/PT_Serif-Web-Bold.ttf);
+    		font-weight: bold;
+   		}
+
+   		@font-face {
+    		font-family: 'PT Serif';
+    		src: url(../fonts/PT_Serif-Web-Italic.ttf);
+    		font-style: italic;
+   		}	
+
+		@font-face {
+    		font-family: 'PT Sans';
+    		src: url(../fonts/PT_Sans-Web-Regular.ttf);
+    		font-style: normal;
+   		}
+
+		@font-face {
+    		font-family: 'PT Sans';
+    		src: url(../fonts/PT_Sans-Web-Bold.ttf);
+    		font-weight: bold;
+   		}
+
+   		@font-face {
+    		font-family: 'PT Sans';
+    		src: url(../fonts/PT_Sans-Web-Italic.ttf);
+    		font-style: italic;
+   		}	   			
+
+		.jumbotron {
+			padding: 0.2em;
+			font-family: 'PT Serif';
+			font-style: normal;
+			font-weight: normal;
+			color: #000;
+		}
+
+		.jumbotron h2 {
+			font-family: 'PT Sans';			
+		}
+	</style>
+
+<style type="text/css">
+
+#edmi {
+	border-bottom-style: dashed;
+	border-bottom-width: 1px;
+	cursor: pointer;
+}
+
+#encrypted {
+	opacity: 0;
+}
+
+#viewer {
+	visibility: hidden;
+}
+
+#ohfuck {
+	color: #aaa;
+}
+
+#created-by {
+	color: #aaa;
+}
+
+
+</style>
+<title>edmi</title>
+</head>
+<body onload="trydec()">
+    <nav class="navbar navbar-static-top navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+        	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            	<span class="sr-only">Toggle navigation</span>
+            	<span class="icon-bar"></span>
+            	<span class="icon-bar"></span>
+            	<span class="icon-bar"></span>
+        	</button>
+        	<span class="navbar-brand" href="#"><a href="../index.html">Tensor of knowledge</a> &rarr; %CONDENSEDHEADER%</span>
+        </div>
+      </div>
+    </nav>
+	<div class="container">
+    	<div id="alert" class="alert alert-warning alert-dismissible" role="alert">
+  			%THISPAGEENCRYPTED%
+  			<div class="row" style="margin-top: 0.4em;margin-bottom: 0.6em;">
+  				<div class="col-lg-4">
+    			<div class="input-group">
+					<input type="password" class="form-control" id="secret-passphrase" placeholder="Волшебный код" />
+					<span class="input-group-btn">
+					<button class="btn btn-default form-control" onclick="decrypt(o('secret-passphrase').value)"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+					</span>
+				</div>
+				</div>
+			</div>
+			<p id="decryption-result"></p><p>%GETMAGICCODE%</p>
+		</div>	
+			<div class="jumbotron" id="viewer">
+				<h2 id="ohfuck">%UPDATED%</h2>
+				<div><canvas id="canvas"></canvas></div>
+				<script type="text/javascript" src="../js/viewer.js"></script>
+				<nav>
+				  	<ul class="pager">
+    					<li class="previous"><a href="javascript:void" onclick="openPrevPage()"><span aria-hidden="true">&larr;</span></a></li>
+    					<li class="next"><a href="javascript:void" onclick="openNextPage()"><span aria-hidden="true">&rarr;</span></a></li>
+  					</ul>
+				</nav>
+				<p><div><span class="label label-default">%COMMIT_CHANGES%</span></div></p>
+			</div>
+<div id="encrypted">
+<nav class="navbar navbar-static-bottom">
+  <div class="container-fluid">
+  <p class="navbar-text" id="created-by">%CREATEDBY%</p>
+<p class="navbar-text pull-right"><a class="github-button" href="https://github.com/tensor-of-knowledge" aria-label="Follow @tensor-of-knowledge on GitHub">Follow @tensor-of-knowledge</a></p>
+  </div>
+</nav>
+</div>
+	</div>
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script async defer src="https://buttons.github.io/buttons.js"></script>
+	<script type="text/javascript">
+		zoomed = true;
+		canvas = document.getElementById('canvas');
+		context = canvas.getContext('2d');
+		PF;
+		var openPrevPage;
+		var openNextPage;
+		currPageNumber = 0;
+	</script>
+</body>
+</html>

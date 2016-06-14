@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="edmi">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<title>T of Kn #1</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+
+	<style type="text/css">
+		@font-face {
+    		font-family: 'PT Serif';
+    		src: url(fonts/PT_Serif-Web-Regular.ttf);
+    		font-style: normal;
+   		}
+
+		@font-face {
+    		font-family: 'PT Serif';
+    		src: url(fonts/PT_Serif-Web-Bold.ttf);
+    		font-weight: bold;
+   		}
+
+   		@font-face {
+    		font-family: 'PT Serif';
+    		src: url(fonts/PT_Serif-Web-Italic.ttf);
+    		font-style: italic;
+   		}	
+
+		@font-face {
+    		font-family: 'PT Sans';
+    		src: url(fonts/PT_Sans-Web-Regular.ttf);
+    		font-style: normal;
+   		}
+
+		@font-face {
+    		font-family: 'PT Sans';
+    		src: url(fonts/PT_Sans-Web-Bold.ttf);
+    		font-weight: bold;
+   		}
+
+   		@font-face {
+    		font-family: 'PT Sans';
+    		src: url(fonts/PT_Sans-Web-Italic.ttf);
+    		font-style: italic;
+   		}	   			
+
+		body {
+			padding-top: 64px;
+		}
+
+		.jumbotron {
+			padding: 0.2em;
+			font-family: 'PT Serif';
+			font-style: normal;
+			font-weight: normal;
+		}
+
+		.jumbotron h2 {
+			font-family: 'PT Sans';			
+		}
+	</style>
+  <script type="text/javascript">
+    function getTree() {
+      var tree = JSON.parse("%INDEX%");
+      return tree;
+    }
+  </script>
+	
+</head>
+<body onload="">
+    <nav class="navbar navbar-fixed-top">
+      <div class="container">
+
+        <div class="navbar-header">
+
+
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Tensor of knowledge<sup>&alpha;</sup></a>
+</form>
+        </div>
+      	
+      </div>
+    </nav>
+
+    <div class="container">      
+      <table class="table table-hover">
+        %COMMITS%                                      
+      </table>
+    </div> 
+
+
+
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="js/bootstrap-treeview.js"></script>
+<script type="text/javascript">
+$( document ).ready(function() {
+  $('#tree').treeview({data: getTree()});
+});
+</script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+</body>
+
+</html>
