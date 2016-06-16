@@ -1,3 +1,5 @@
+sc = 1
+
 render = function(w) {
 	PDFJS.getDocument({data: w}).then(function(pdfFile) {
 		PF = pdfFile;
@@ -26,10 +28,8 @@ var openPage = function(pdfFile, pageNumber) {
     pdfFile.getPage(pageNumber).then(function(page) {
         viewport = page.getViewport(1);
 
-        if (zoomed) {
-            var scale = $('#ohfuck').width() / viewport.width;
-            viewport = page.getViewport(scale);
-        }
+        var scale = sc * $('#ohfuck').width() / viewport.width;
+        viewport = page.getViewport(scale);
 
         canvas.height = viewport.height;
         canvas.width = viewport.width;

@@ -39,6 +39,13 @@ function decrypt(p) {
 	}
 }
 
+function rerender() {
+	sc = 2;
+	openPage(PF,1);
+	//o("viewer").style.width = $('#canvas').width() + "px";
+	o("viewer").style.display = "inline-block";
+}
+
 function trydec() {
 	try {
 		var dec = CryptoJS.AES.decrypt(pdfData, "").toString(CryptoJS.enc.Utf8);
@@ -119,6 +126,7 @@ function trydec() {
 			font-style: normal;
 			font-weight: normal;
 			color: #000;
+			overflow: visible;
 		}
 
 		.jumbotron h2 {
@@ -185,7 +193,7 @@ function trydec() {
 		</div>	
 			<div class="jumbotron" id="viewer">
 				<h2 id="ohfuck">%UPDATED%</h2>
-				<div><canvas id="canvas"></canvas></div>
+				<div><canvas id="canvas" ondblclick="rerender()"></canvas></div>
 				<script type="text/javascript" src="../js/viewer.js"></script>
 				<nav>
 				  	<ul class="pager">
