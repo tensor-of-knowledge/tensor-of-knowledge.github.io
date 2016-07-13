@@ -1,3 +1,4 @@
+<tr><td class="short-name"><a href="data/mLearningProblem.html">mLearningProblem</a></td><td class="title">Формальная постановка задачи машинного обучения</td><td class="tags">машинное обучение</td></tr>
 <tr><td class="short-name"><a href="data/BetheFormula.html">BetheFormula</a></td><td class="title">Формула Бете-Блоха</td><td class="tags">физика, ядерная физика</td></tr>
 <tr><td class="short-name"><a href="data/difPartEq2.html">difPartEq2</a></td><td class="title">Виды дифференциальных уравнений 2-го порядка с двумя независимыми переменными</td><td class="tags">уравнения матфизики, дифференциальные уравнения</td></tr>
 <tr><td class="short-name"><a href="data/MD5.html">MD5</a></td><td class="title">Алгоритм MD5</td><td class="tags">алгоритмы, криптография</td></tr>
