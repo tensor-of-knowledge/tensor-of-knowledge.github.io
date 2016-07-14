@@ -1,0 +1,142 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{cmap}
+\usepackage{amsfonts,amsmath}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{minted}
+\geometry{verbose,a5paper,tmargin=0.8cm,bmargin=1.5cm,lmargin=0.2cm,rmargin=0.2cm}
+\pdfcompresslevel=9
+
+%VARS%
+%! { 
+%! "TITLE": "Шпаргалка по haskell",
+%! "DESCRIPTION": "Основные приемы программирования на haskell",
+%! "AUTHOR": "edmi",
+%! "TAGS": "haskell"
+%! }
+%VARS%
+
+% WARNING!!!
+% this file uses minted package, make sure it is installed
+% sudo apt-get install texlive-*
+% sudo apt-get install python-pygments
+
+\begin{document}
+
+    \huge{\textbf{Шпаргалка по haskell}}\\\small
+    
+    \large{Замечания}\small\\
+    
+    -- Списки можно сравнивать, списки \textbf{большей} длины \textbf{больше}:
+    \begin{minted}{haskell}
+        [1,2,3] > [100,200]
+    \end{minted}
+    
+    -- Оператор $..$ в генераторах:
+    \begin{minted}{haskell}
+        [a..b] = [a,a+1,...b], b>=a
+        [a..b] = [], b<a
+    \end{minted}
+    
+    -- $let$ в генетаторах:
+    \begin{minted}{haskell}
+        [x*y | x<-[1,2,3], let y=2] == [2,4,6]
+    \end{minted}
+    
+    -- Числа с плавающей точкой лучше \textbf{не использовать в интервалах!} Могут вызвать непредсказуемое поведение.
+    
+    -- Порядок применения функций в генераторах:
+    \begin{minted}{haskell}
+        [x `f` y | x<-[a1,b1,...], y<-[a2,b2,...]] == 
+        == [a1 `f` a2, a1 `f` b2, ..., b1 `f` a2]
+    \end{minted}
+    
+    -- Можно объявлять инфиксную функцию:
+    \begin{minted}{haskell}
+        b `a` c = b + c
+        5 `a` 10 == 15
+    \end{minted}
+    
+    -- Вычитание в сечениях:
+    \begin{minted}{haskell}
+        map (-4) [4,4,4] == BOTTOM
+        map (subtract 4) [4,4,4] == [0,0,0]    
+    \end{minted}
+
+    -- Каррирование в лямбда-выражениях:
+    \begin{minted}{haskell}
+        \x y -> x+y == \x -> \y -> x+y
+    \end{minted}
+    
+    -- Операторы $(\$)$ и $(.)$ \textbf{правоассоциативны}
+    
+    -- Именованные образцы:
+    \begin{minted}{haskell}
+        (f name@(x:xs) = ...) == (f (x:xs) = ... where name=(x:xs))
+    \end{minted}
+    
+    \large{Импорт модулей}\small\\
+    
+    -- Все функции в глобальное пространство имен:
+    \begin{minted}{haskell}
+        import A.B
+    \end{minted}
+    
+    -- Только функции $a, b$:
+    \begin{minted}{haskell}
+        import A.B (a, b)
+    \end{minted}
+    
+    -- Кроме $a, b$:
+    \begin{minted}{haskell}
+        import A.B hiding (a, b)
+    \end{minted}
+    
+    -- Вызов через $A.B.func$:
+    \begin{minted}{haskell}
+        import qualified A.B
+    \end{minted}    
+    
+    -- Вызов через $C.func$:
+    \begin{minted}{haskell}
+        import qualified A.B as C
+    \end{minted}        
+    
+    \large{Классы типов}\small\\    
+
+    \begin{minted}{haskell}
+        name :: (Class x) => T1 [->T2->...->TN], Ti=x
+    \end{minted}
+    
+    \textbf{Eq} -- равны (=) либо не равны (/=)
+    
+    \textbf{Ord} -- отношения порядка (>, <, >=, <=)
+    
+    \textbf{Show} -- применима функция show:
+    \begin{minted}{haskell}
+        show :: (Class x) => x -> String
+    \end{minted}    
+    
+    \textbf{Read} -- применима функция read :: x:
+    \begin{minted}{haskell}
+        read :: (Class x) => String -> x
+    \end{minted}
+    
+    \textbf{Enum} -- значения можно пронумеровать
+    
+    \textbf{Bounded} -- есть верхняя/нижняя граница
+    
+    \textbf{Num} -- экземпляры ведут себя как числа
+    
+    \textbf{Floating} -- как числа с плавающей точкой
+    
+    \textbf{Integral} -- как целые числа
+    
+    
+    
+    
+ 
+\end{document}
+

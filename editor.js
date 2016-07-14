@@ -92,7 +92,7 @@ function make(latex,entryName,magicCode,ch,res) {
     vars = latex.split("%VARS%")[1].split("%! ").join("");
     console.log(vars);
     vars = JSON.parse(vars);
-	exec('pdflatex -halt-on-error sandbox/' + entryName + '.tex; rm ' + entryName + '.aux; rm ' + entryName + '.log; mv ' + entryName + '.pdf sandbox/' + entryName + '.pdf',function() {
+	exec('pdflatex -halt-on-error -shell-escape sandbox/' + entryName + '.tex; rm ' + entryName + '.aux; rm ' + entryName + '.log; mv ' + entryName + '.pdf sandbox/' + entryName + '.pdf',function() {
 		install("sandbox/" + entryName + ".tex",magicCode,vars,ch,res);
 	});
 }

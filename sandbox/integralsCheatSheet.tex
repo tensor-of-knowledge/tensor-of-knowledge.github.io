@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{cmap}
+\usepackage{amsfonts,amsmath}
+\usepackage{geometry}
+\usepackage{listings}
+\geometry{verbose,a5paper,tmargin=0.8cm,bmargin=1.5cm,lmargin=0.2cm,rmargin=0.2cm}
+\pdfcompresslevel=9
+
+%VARS%
+%! { 
+%! "TITLE": "Шпаргалка по интегралам",
+%! "DESCRIPTION": "Основные методы интегрирования и таблица интегралов",
+%! "AUTHOR": "edmi",
+%! "TAGS": "математический анализ"
+%! }
+%VARS%
+
+\begin{document}
+
+    \huge{\textbf{Шпаргалка по интегралам}}\\\small
+    
+    \large{Таблица интегралов}\small
+    
+    \begin{equation}
+        \int a^x dx = \frac{a^x}{\ln a} + C
+    \end{equation}
+    
+    \begin{equation}
+        \int \frac{dx}{\sqrt{a^2-x^2}} = \arcsin\frac{x}{a} + C
+    \end{equation}
+    
+    \begin{equation}
+        \int \frac{dx}{a^2 + x^2} = \frac{1}{a}\arctg\frac{x}{a} + C
+    \end{equation}
+    
+    \begin{equation}
+        \int \frac{dx}{a^2 - x^2} = \frac{1}{2a}\ln |\frac{a+x}{a-x}| + C
+    \end{equation}
+    
+    \begin{equation}
+        \int \frac{dx}{x^2\pm a^2} = \ln |x+\sqrt{x^2\pm a^2}| + C
+    \end{equation}\\
+    
+    \large{Интегрирование дробно-рациональной функции}\small
+    
+    1) Определить, является ли дробь правильной (по степеням многочленов). Если нет -- поделить числитель на знаменатель.
+    
+    2) Разложить знаменатель на множители.
+    
+    3) Представляем дробь в виде суммы рациональных дробей. Знаменатели -- множители из п. 2, числители -- выражения с новыми переменными $A, B, C, ...$, причем:
+    
+    -- Если есть кратные множители $x^n$, требуется написать в сумму $n$ дробей вида $\frac{A_i}{x^i},\;\;i=1..n$
+
+    -- Если среди множителей есть неразложимые квадратные трехчлены, в соотв. числителе -- выражения вида $Ax+B$.
+    
+    -- Если знаменатель -- $x^n$ или $(x+\alpha)^n$, то в соотв. числителе -- единственная переменная.
+
+    4) Привести полученную сумму к общему знаменателю и приравнять к исходной дроби
+    
+    5) Найти значения новых переменных методом неопределенных коэффициентов (сгруппировать слева и справа эти переменные при $x$ в одной степени, составить и решить систему линейных уравнений)
+
+    6) Интегрировать найденную в п. 4 сумму с найденными в п. 5 числителями\\
+    
+    \large{Подстановки Эйлера}\small   
+    
+    Используются для интегрирования рациональных функций, содержащих $\sqrt{ax^2+bx+c}$.
+    
+    Первая подстановка, если $a>0$:
+    \begin{equation}
+        \sqrt{ax^2+bx+c} = \pm t \pm \sqrt{a} x
+    \end{equation}
+    
+    Вторая подстановка, если $c>0$:
+    \begin{equation}
+        \sqrt{ax^2 + bx + c} = \pm xt \pm \sqrt{x}
+    \end{equation}
+    
+    Третья подстановка, если подкоренное выражение имеет два действительных корня:
+    \begin{equation}
+        \sqrt{ax^2+bx+c}=t(x-\lambda), \lambda \text{-- один из корней}
+    \end{equation}
+\end{document}
+
